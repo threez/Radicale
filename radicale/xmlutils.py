@@ -280,6 +280,9 @@ def _propfind_response(path, item, props, user):
             if user:
                 tag = ET.Element(_tag("D", "href"))
                 tag.text = _href("%s/" % user)
+            elif path.startswith(_href(".well-known/c")):
+                tag = ET.Element(_tag("D", "href"))
+                tag.text = path
             else:
                 is404 = True
                 tag = ET.Element(_tag("D", "unauthenticated"))
