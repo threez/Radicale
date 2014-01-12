@@ -23,9 +23,9 @@ pid = /usr/local/radicale/var/radicale.pid
 # SSL flag, enable HTTPS protocol
 ssl = True
 # SSL certificate path
-certificate = /usr/local/radicale/etc/server.crt
+certificate = /usr/syno/etc/ssl/ssl.crt/server.crt
 # SSL private key
-key = /usr/local/radicale/etc/server.key
+key = /usr/syno/etc/ssl/ssl.key/server.key
 # SSL Protocol used. See python's ssl module for available values
 protocol = PROTOCOL_SSLv23
 # Ciphers available. See python's ssl module for available ciphers
@@ -36,6 +36,10 @@ dns_lookup = True
 base_prefix = /
 # Message displayed in the client when a password is needed
 realm = Synology - Radicale - Password Required
+# pivdrop user
+setuid = radicale
+# pivdrop group
+setgid = nobody
 
 
 [encoding]
