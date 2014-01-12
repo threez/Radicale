@@ -35,13 +35,11 @@ def drop_privileges(uid=None, gid=None):
 def secure_server():
 	disallow_core_dumps()
 	disallow_swapping()
-
-    # Drop privileges
-    uid = config.get("server", "setuid")
-    gid = config.get("server", "setgid")
-    if uid or gid:
-    	dropped = util.drop_privileges(uid, gid)
-    	if dropped:
-    		log.LOGGER.info("Privileges dropped")
-    	else:
-    		log.LOGGER.warn("Privileges NOT dropped")
+	uid = config.get("server", "setuid")
+	gid = config.get("server", "setgid")
+	if uid or gid:
+		dropped = util.drop_privileges(uid, gid)
+		if dropped:
+			log.LOGGER.info("Privileges dropped")
+		else:
+			log.LOGGER.warn("Privileges NOT dropped")
