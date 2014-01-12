@@ -34,7 +34,7 @@ from wsgiref.simple_server import make_server
 
 from . import (
     Application, config, HTTPServer, HTTPSServer, log, RequestHandler, VERSION,
-    util, security)
+    security)
 
 
 # This is a script, many branches and variables
@@ -104,9 +104,6 @@ def run():
         log.LOGGER.warning(
             "Configuration file '%s' not found" % options.config)
 
-    # harden the server against external attacks
-    secure_server()
-
     # Fork if Radicale is launched as daemon
     if config.getboolean("server", "daemon"):
         if os.path.exists(config.get("server", "pid")):
@@ -170,6 +167,11 @@ def run():
         if config.getboolean("server", "ssl"):
             log.LOGGER.debug("Using SSL")
         threading.Thread(target=serve_forever, args=(server,)).start()
+
+	# harden the server against external attacks
+	uid = config.get("server", "setuid")
+	gid = config.get("server", "setgid")
+	security.secure_server(uid, gid)
 
     log.LOGGER.debug("Radicale server ready")
 

@@ -5,7 +5,7 @@ import sys
 import resource
 import ctypes
 import ctypes.util
-from .. import config, log
+import log
 
 LIBC = ctypes.CDLL(ctypes.util.find_library("c"))
 
@@ -29,17 +29,19 @@ def drop_privileges(uid=None, gid=None):
 		if gid and gid != "":
 			os.setgid(grp.getgrnam(gid).gr_gid)
 		return True
-	except OSError:
+	except OSError, e:
+		log.LOGGER.error("Error: %s" % (e))
 		return False
 
-def secure_server():
+def secure_server(uid, gid):
 	disallow_core_dumps()
 	disallow_swapping()
-	uid = config.get("server", "setuid")
-	gid = config.get("server", "setgid")
+	log.LOGGER.debug("Drop privileges to %s (%s)" % (uid, gid))
 	if uid or gid:
-		dropped = util.drop_privileges(uid, gid)
+		dropped = drop_privileges(uid, gid)
 		if dropped:
 			log.LOGGER.info("Privileges dropped")
 		else:
 			log.LOGGER.warn("Privileges NOT dropped")
+	else:
+		log.LOGGER.warn("Privileges NOT dropped (no uid or gid)")

@@ -36,10 +36,6 @@ dns_lookup = True
 base_prefix = /
 # Message displayed in the client when a password is needed
 realm = Synology - Radicale - Password Required
-# pivdrop user
-setuid = radicale
-# pivdrop group
-setgid = nobody
 
 
 [encoding]

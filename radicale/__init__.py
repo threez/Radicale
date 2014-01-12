@@ -285,8 +285,9 @@ class Application(object):
 
         is_authenticated = auth.is_authenticated(user, password)
 
-        if ((read_allowed_items or write_allowed_items)
-            and (not user or is_authenticated)) or \
+        # generally allow access to '/', even if the user is not authenticated
+        if (path == '/' or ((read_allowed_items or write_allowed_items)
+            and (not user or is_authenticated))) or \
                 (is_authenticated and function == self.propfind) or \
                 function == self.options or not items:
             # Collections found, or authenticated PROPFIND request,
