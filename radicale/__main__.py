@@ -33,7 +33,8 @@ import threading
 from wsgiref.simple_server import make_server
 
 from . import (
-    Application, config, HTTPServer, HTTPSServer, log, RequestHandler, VERSION)
+    Application, config, HTTPServer, HTTPSServer, log, RequestHandler, VERSION,
+    util, security)
 
 
 # This is a script, many branches and variables
@@ -73,6 +74,12 @@ def run():
     parser.add_option(
         "-C", "--config",
         help="use a specific configuration file")
+    parser.add_option(
+        "-U", "--setuid",
+        help="setuid to this user after dropping privileges")
+    parser.add_option(
+        "-G", "--setgid",
+        help="setuid to this group after dropping privileges")
 
     options = parser.parse_args()[0]
 
@@ -96,6 +103,9 @@ def run():
     if not configuration_found:
         log.LOGGER.warning(
             "Configuration file '%s' not found" % options.config)
+
+    # harden the server against external attacks
+    secure_server()
 
     # Fork if Radicale is launched as daemon
     if config.getboolean("server", "daemon"):

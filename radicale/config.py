@@ -49,7 +49,9 @@ INITIAL_CONFIG = {
         "ciphers": "",
         "dns_lookup": "True",
         "base_prefix": "/",
-        "realm": "Radicale - Password Required"},
+        "realm": "Radicale - Password Required",
+        "setuid": "",
+        "setgid": ""},
     "encoding": {
         "request": "utf-8",
         "stock": "utf-8"},
